@@ -1,3 +1,11 @@
+from rest_framework import viewsets
+from rest_framework import authentication
+from .serializers import (
+    CustomTextSerializer,
+    R1Serializer,
+    R2Serializer,
+    HomePageSerializer,
+)
 from rest_framework.authentication import SessionAuthentication, TokenAuthentication
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.permissions import IsAdminUser
@@ -11,7 +19,7 @@ from home.api.v1.serializers import (
     HomePageSerializer,
     UserSerializer,
 )
-from home.models import CustomText, HomePage
+from home.models import CustomText, R1, R2, HomePage
 
 
 class SignupViewSet(ModelViewSet):
@@ -49,3 +57,21 @@ class HomePageViewSet(ModelViewSet):
     authentication_classes = (SessionAuthentication, TokenAuthentication)
     permission_classes = [IsAdminUser]
     http_method_names = ["get", "put", "patch"]
+
+
+class R2ViewSet(viewsets.ModelViewSet):
+    serializer_class = R2Serializer
+    authentication_classes = (
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication,
+    )
+    queryset = R2.objects.all()
+
+
+class R1ViewSet(viewsets.ModelViewSet):
+    serializer_class = R1Serializer
+    authentication_classes = (
+        authentication.SessionAuthentication,
+        authentication.TokenAuthentication,
+    )
+    queryset = R1.objects.all()
